@@ -36,7 +36,12 @@ export default function PostDetailPage({ getPostById }) {
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
-      <Link to="/" className="text-blue-600 hover:underline mb-6 inline-block font-medium">&larr; Back to Posts</Link>
+      <div className="flex justify-between items-center mb-6">
+        <Link to="/" className="text-blue-600 hover:underline font-medium">&larr; Back to Posts</Link>
+        <Link to={`/posts/edit/${id}`} className="bg-amber-500 text-white px-4 py-1.5 rounded font-semibold hover:bg-amber-600 transition text-sm">
+          Edit Post
+        </Link>
+      </div>
       <article className="bg-white p-8 rounded-lg shadow-md border border-gray-100">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
         <div className="text-sm text-gray-500 mb-6 border-b pb-4 flex justify-between">

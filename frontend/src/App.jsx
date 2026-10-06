@@ -11,6 +11,7 @@ import Logout from './pages/Logout';
 import Navbar from './components/Navbar';
 import CreatePostPage from './pages/CreatePostPage';
 import PostDetailPage from './pages/PostDetailPage';
+import EditPostPage from './pages/EditPostPage';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/posts/create" element={<CreatePostPage />} />
             <Route path="/posts/:id" element={<PostDetailPage />} />
+            <Route path="/posts/edit/:id" element={<EditPostPage />} />
           </Routes>
         </main>
       </div>
