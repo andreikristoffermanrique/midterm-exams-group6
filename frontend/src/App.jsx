@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Logout from './pages/Logout';
 import Navbar from './components/Navbar';
 import CreatePostPage from './pages/CreatePostPage';
+import PostDetailPage from './pages/PostDetailPage';
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/posts/create" element={<CreatePostPage />} />
+            <Route path="/posts/:id" element={<PostDetailPage />} />
           </Routes>
         </main>
       </div>
