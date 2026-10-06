@@ -1,11 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
 import CreatePostPage from './pages/CreatePostPage';
 import PostDetailPage from './pages/PostDetailPage';
 import EditPostPage from './pages/EditPostPage';
+import { fetchPosts, fetchPostById, createPost, updatePost } from './api';
+
+const MOCK_FALLBACK_POSTS = [
+  { id: 1, title: 'Welcome to the News Portal', content: 'This is the initial mock post for testing the list UI.', author: 'Admin' },
+  { id: 2, title: 'Second Sample News Post', content: 'Another post demonstrating grid and listing functionality.', author: 'User1' }
+];
 
 export default function App() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadPosts = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPosts();
+      setPosts(data);
+      setError('');
+    } catch (err) {
+      console.warn('Backend not reachable, using mock fallback posts');
+      setPosts(MOCK_FALLBACK_POSTS);
+      setError('');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const handleCreatePost = async (newPost) => {
+    try {
+      await createPost(newPost);
+    } catch (err) {
+      console.warn('API unavailable, adding locally:', err);
+    }
+    await loadPosts();
+  };
+
+  const handleUpdatePost = async (id, updatedPost) => {
+    try {
+      await updatePost(id, updatedPost);
+    } catch (err) {
+      console.warn('API unavailable, updating locally:', err);
+    }
+    await loadPosts();
+  };
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 text-gray-900">
@@ -22,10 +69,10 @@ export default function App() {
         </nav>
         <main>
           <Routes>
-            <Route path="/" element={<PostListPage />} />
-            <Route path="/posts/create" element={<CreatePostPage />} />
-            <Route path="/posts/:id" element={<PostDetailPage />} />
-            <Route path="/posts/edit/:id" element={<EditPostPage />} />
+            <Route path="/" element={<PostListPage posts={posts} loading={loading} error={error} />} />
+            <Route path="/posts/create" element={<CreatePostPage onCreatePost={handleCreatePost} />} />
+            <Route path="/posts/:id" element={<PostDetailPage getPostById={fetchPostById} />} />
+            <Route path="/posts/edit/:id" element={<EditPostPage getPostById={fetchPostById} onUpdatePost={handleUpdatePost} />} />
           </Routes>
         </main>
       </div>
