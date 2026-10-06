@@ -53,3 +53,19 @@ def update_post(post_id):
         return success_response("Post updated successfully", {"post_id": post_id}, 200)
     except Exception as e:
         return error_response("Failed to update post", {"error": str(e)}, 500)
+
+def delete_post(post_id):
+    post = PostModel.get_by_id(post_id)
+    if not post:
+        return error_response("Post not found", status=404)
+        
+    user_id = getattr(g, 'current_user', {}).get('id')
+    # Basic ownership check
+    if user_id and post['user_id'] and post['user_id'] != user_id:
+        return error_response("Unauthorized to delete this post", status=403)
+        
+    try:
+        PostModel.delete(post_id)
+        return success_response("Post deleted successfully", status=200)
+    except Exception as e:
+        return error_response("Failed to delete post", {"error": str(e)}, 500)

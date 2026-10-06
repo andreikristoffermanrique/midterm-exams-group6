@@ -78,3 +78,8 @@ def get_posts_route():
 @token_required
 def update_post_route(post_id):
     return controllers.update_post(post_id)
+
+@posts_bp.route('/api/posts/<int:post_id>', methods=['DELETE'])
+@token_required
+def delete_post_route(post_id):
+    return controllers.delete_post(post_id)

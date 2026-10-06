@@ -47,3 +47,9 @@ class PostModel:
         db = get_db()
         db.execute('UPDATE posts SET title = ?, content = ? WHERE id = ?', (title, content, post_id))
         db.commit()
+
+    @staticmethod
+    def delete(post_id):
+        db = get_db()
+        db.execute('DELETE FROM posts WHERE id = ?', (post_id,))
+        db.commit()
