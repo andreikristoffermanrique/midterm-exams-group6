@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
 import Register from './pages/Register';
+import Login from './pages/Login';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
             <Link to="/" className="text-xl font-bold">NewsPortal</Link>
             <div className="space-x-4">
               <Link to="/" className="hover:underline">Home</Link>
+              <Link to="/login" className="hover:underline">Login</Link>
               <Link to="/register" className="hover:underline">Register</Link>
             </div>
           </div>
@@ -20,6 +22,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<PostListPage />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
       </div>
