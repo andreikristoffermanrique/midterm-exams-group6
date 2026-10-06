@@ -12,14 +12,15 @@ export async function apiRequest(endpoint, { method = 'GET', body = null } = {})
     options.body = JSON.stringify(body);
   }
 
+  const res = await fetch(`${API_BASE}${endpoint}`, options);
+  let result;
   try {
-    const res = await fetch(`${API_BASE}${endpoint}`, options);
-    const result = await res.json();
-    if (!res.ok || result.success === false) {
-      throw new Error(result.message || 'API request failed');
-    }
-    return result;
-  } catch (err) {
-    throw err;
+    result = await res.json();
+  } catch {
+    result = { success: false, message: res.statusText || 'API request failed' };
   }
+  if (!res.ok || result.success === false) {
+    throw new Error(result.message || 'API request failed');
+  }
+  return result;
 }
