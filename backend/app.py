@@ -27,5 +27,7 @@ app.register_blueprint(auth_bp, url_prefix='/api')
 
 # ---- SEARCH (Developer 5) ----
 
+from routes import search_bp
+app.register_blueprint(search_bp, url_prefix="/api")
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

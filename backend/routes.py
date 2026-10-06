@@ -83,3 +83,43 @@ def update_post_route(post_id):
 @token_required
 def delete_post_route(post_id):
     return controllers.delete_post(post_id)
+
+# ---- SEARCH ROUTE (Developer 5 - SEARCH-BE-01) ----
+from flask import Blueprint, request
+from controllers import search_posts_controller
+
+search_bp = Blueprint("search_bp", __name__)
+
+@search_bp.route("/posts/search", methods=["GET"])
+def search_posts_route():
+    return search_posts_controller(request.args)
+
+# ---- SEARCH ROUTE (Developer 5 - SEARCH-BE-01) ----
+from flask import Blueprint, request
+from controllers import search_posts_controller
+
+search_bp = Blueprint("search_bp", __name__)
+
+@search_bp.route("/posts/search", methods=["GET"])
+def search_posts_route():
+    return search_posts_controller(request.args)
+
+# ---- SEARCH ROUTE (Developer 5 - SEARCH-BE-01) ----
+from flask import Blueprint, request
+from controllers import search_posts_controller
+
+search_bp = Blueprint("search_bp", __name__)
+
+@search_bp.route("/posts/search", methods=["GET"])
+def search_posts_route():
+    return search_posts_controller(request.args)
+
+# ---- SEARCH ROUTE (Developer 5 - SEARCH-BE-01) ----
+from flask import Blueprint, request
+from controllers import search_posts_controller
+
+search_bp = Blueprint("search_bp", __name__)
+
+@search_bp.route("/posts/search", methods=["GET"])
+def search_posts_route():
+    return search_posts_controller(request.args)
