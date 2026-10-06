@@ -73,3 +73,8 @@ def add_post():
 @posts_bp.route('/api/posts', methods=['GET'])
 def get_posts_route():
     return controllers.get_posts()
+
+@posts_bp.route('/api/posts/<int:post_id>', methods=['PUT'])
+@token_required
+def update_post_route(post_id):
+    return controllers.update_post(post_id)

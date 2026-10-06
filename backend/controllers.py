@@ -30,3 +30,26 @@ def get_posts():
         return success_response("Posts retrieved successfully", {"posts": posts}, 200)
     except Exception as e:
         return error_response("Failed to retrieve posts", {"error": str(e)}, 500)
+
+def update_post(post_id):
+    data = request.json or {}
+    title = data.get('title', '').strip()
+    content = data.get('content', '').strip()
+    
+    if not title or not content:
+        return error_response("Title and content are required", status=400)
+        
+    post = PostModel.get_by_id(post_id)
+    if not post:
+        return error_response("Post not found", status=404)
+        
+    user_id = getattr(g, 'current_user', {}).get('id')
+    # Basic ownership check (if auth is fully integrated)
+    if user_id and post['user_id'] and post['user_id'] != user_id:
+        return error_response("Unauthorized to edit this post", status=403)
+        
+    try:
+        PostModel.update(post_id, title, content)
+        return success_response("Post updated successfully", {"post_id": post_id}, 200)
+    except Exception as e:
+        return error_response("Failed to update post", {"error": str(e)}, 500)
