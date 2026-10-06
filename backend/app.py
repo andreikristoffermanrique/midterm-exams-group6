@@ -1,6 +1,7 @@
 ﻿from flask import Flask, jsonify
 from flask_cors import CORS
 import database
+from routes import auth_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +19,7 @@ def api_base():
     return jsonify({"success": True, "message": "API is running", "data": {}})
 
 # ---- AUTH (Developer 3) ----
+app.register_blueprint(auth_bp, url_prefix='/api')
 
 # ---- POSTS (Developer 4) ----
 
