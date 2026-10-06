@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
+import Register from './pages/Register';
 
 export default function App() {
   return (
@@ -11,12 +12,14 @@ export default function App() {
             <Link to="/" className="text-xl font-bold">NewsPortal</Link>
             <div className="space-x-4">
               <Link to="/" className="hover:underline">Home</Link>
+              <Link to="/register" className="hover:underline">Register</Link>
             </div>
           </div>
         </nav>
         <main>
           <Routes>
             <Route path="/" element={<PostListPage />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </main>
       </div>
