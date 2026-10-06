@@ -7,3 +7,5 @@ dist/
 *.db
 .env
 .DS_Store
+venv/
+backend/venv/
