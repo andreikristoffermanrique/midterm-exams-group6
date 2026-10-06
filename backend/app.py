@@ -4,6 +4,8 @@ import database
 from routes import auth_bp
 
 app = Flask(__name__)
+from routes import posts_bp
+app.register_blueprint(posts_bp)
 CORS(app)
 app.config['SECRET_KEY'] = 'super-secret-midterm-key'
 

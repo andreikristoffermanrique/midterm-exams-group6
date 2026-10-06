@@ -54,3 +54,18 @@ def login():
 # ---- POSTS (Developer 4) ----
 
 # ---- SEARCH (Developer 5) ----
+
+# ---- POSTS ROUTES (Developer 4) ----
+from flask import Blueprint
+import controllers
+try:
+    from decorators import token_required
+except ImportError:
+    def token_required(f): return f
+
+posts_bp = Blueprint('posts_bp', __name__)
+
+@posts_bp.route('/api/posts', methods=['POST'])
+@token_required
+def add_post():
+    return controllers.create_post()
