@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
 import CreatePostPage from './pages/CreatePostPage';
+import PostDetailPage from './pages/PostDetailPage';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<PostListPage />} />
             <Route path="/posts/create" element={<CreatePostPage />} />
+            <Route path="/posts/:id" element={<PostDetailPage />} />
           </Routes>
         </main>
       </div>
