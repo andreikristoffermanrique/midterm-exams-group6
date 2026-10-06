@@ -23,3 +23,10 @@ def create_post():
         return success_response("Post created successfully", {"post_id": post_id}, 201)
     except Exception as e:
         return error_response("Failed to create post", {"error": str(e)}, 500)
+
+def get_posts():
+    try:
+        posts = PostModel.get_all()
+        return success_response("Posts retrieved successfully", {"posts": posts}, 200)
+    except Exception as e:
+        return error_response("Failed to retrieve posts", {"error": str(e)}, 500)

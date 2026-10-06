@@ -69,3 +69,7 @@ posts_bp = Blueprint('posts_bp', __name__)
 @token_required
 def add_post():
     return controllers.create_post()
+
+@posts_bp.route('/api/posts', methods=['GET'])
+def get_posts_route():
+    return controllers.get_posts()
