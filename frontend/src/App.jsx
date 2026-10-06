@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
 import CreatePostPage from './pages/CreatePostPage';
 import PostDetailPage from './pages/PostDetailPage';
+import EditPostPage from './pages/EditPostPage';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/" element={<PostListPage />} />
             <Route path="/posts/create" element={<CreatePostPage />} />
             <Route path="/posts/:id" element={<PostDetailPage />} />
+            <Route path="/posts/edit/:id" element={<EditPostPage />} />
           </Routes>
         </main>
       </div>
