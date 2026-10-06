@@ -26,6 +26,12 @@ def error_response(message="Error", errors=None, status=400):
     return jsonify(payload), status
 
 
+def format_api_response(success=True, message="Success", data=None, errors=None, status=200):
+    if success:
+        return success_response(message=message, data=data, status=status)
+    return error_response(message=message, errors=errors, status=status)
+
+
 # ---- ERROR HANDLING (Developer 5 - SEARCH-BE-04) ----
 class APIError(Exception):
     def __init__(self, message="Bad request", errors=None, status=400):
