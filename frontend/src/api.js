@@ -24,3 +24,24 @@ export async function apiRequest(endpoint, { method = 'GET', body = null } = {})
   }
   return result;
 }
+
+export function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+}
+
+export function getStoredUser() {
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    try {
+      return JSON.parse(userStr);
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+export function isAuthenticated() {
+  return !!localStorage.getItem('token');
+}

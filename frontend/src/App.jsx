@@ -4,6 +4,7 @@ import PostListPage from './pages/PostListPage';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Logout from './pages/Logout';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/logout" element={<Logout />} />
           </Routes>
         </main>
       </div>

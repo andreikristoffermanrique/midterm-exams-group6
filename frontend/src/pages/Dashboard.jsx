@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { logout } from '../api';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -40,8 +41,7 @@ export default function Dashboard() {
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    logout();
     navigate('/login');
   };
 
