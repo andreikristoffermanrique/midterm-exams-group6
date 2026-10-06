@@ -1,7 +1,13 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
-import React from 'react';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Logout from './pages/Logout';
+import CreatePostPage from './pages/CreatePostPage';
+import PostDetailPage from './pages/PostDetailPage';
+import EditPostPage from './pages/EditPostPage';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PostListPage from './pages/PostListPage';
 import Register from './pages/Register';
@@ -12,8 +18,55 @@ import Navbar from './components/Navbar';
 import CreatePostPage from './pages/CreatePostPage';
 import PostDetailPage from './pages/PostDetailPage';
 import EditPostPage from './pages/EditPostPage';
+import { fetchPosts, fetchPostById, createPost, updatePost } from './api';
+
+const MOCK_FALLBACK_POSTS = [
+  { id: 1, title: 'Welcome to the News Portal', content: 'This is the initial mock post for testing the list UI.', author: 'Admin' },
+  { id: 2, title: 'Second Sample News Post', content: 'Another post demonstrating grid and listing functionality.', author: 'User1' }
+];
 
 export default function App() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadPosts = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPosts();
+      setPosts(data);
+      setError('');
+    } catch (err) {
+      console.warn('Backend not reachable, using mock fallback posts');
+      setPosts(MOCK_FALLBACK_POSTS);
+      setError('');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const handleCreatePost = async (newPost) => {
+    try {
+      await createPost(newPost);
+    } catch (err) {
+      console.warn('API unavailable, adding locally:', err);
+    }
+    await loadPosts();
+  };
+
+  const handleUpdatePost = async (id, updatedPost) => {
+    try {
+      await updatePost(id, updatedPost);
+    } catch (err) {
+      console.warn('API unavailable, updating locally:', err);
+    }
+    await loadPosts();
+  };
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
@@ -31,14 +84,14 @@ export default function App() {
         <Navbar />
         <main className="flex-1">
           <Routes>
-            <Route path="/" element={<PostListPage />} />
+            <Route path="/" element={<PostListPage posts={posts} loading={loading} error={error} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/posts/create" element={<CreatePostPage />} />
-            <Route path="/posts/:id" element={<PostDetailPage />} />
-            <Route path="/posts/edit/:id" element={<EditPostPage />} />
+            <Route path="/posts/create" element={<CreatePostPage onCreatePost={handleCreatePost} />} />
+            <Route path="/posts/:id" element={<PostDetailPage getPostById={fetchPostById} />} />
+            <Route path="/posts/edit/:id" element={<EditPostPage getPostById={fetchPostById} onUpdatePost={handleUpdatePost} />} />
           </Routes>
         </main>
       </div>

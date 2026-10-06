@@ -1,47 +1,38 @@
-export const API_BASE = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5000/api'; // Replace 5000 with your backend port
 
-export async function apiRequest(endpoint, { method = 'GET', body = null } = {}) {
-  const token = localStorage.getItem('token');
-  const headers = { 'Content-Type': 'application/json' };
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  const options = { method, headers };
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
-
-  const res = await fetch(`${API_BASE}${endpoint}`, options);
-  let result;
-  try {
-    result = await res.json();
-  } catch {
-    result = { success: false, message: res.statusText || 'API request failed' };
-  }
-  if (!res.ok || result.success === false) {
-    throw new Error(result.message || 'API request failed');
-  }
-  return result;
+export async function fetchPosts() {
+  const response = await fetch(`${API_BASE_URL}/posts`);
+  if (!response.ok) throw new Error('Failed to fetch posts');
+  return response.json();
 }
 
-export function logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-}
-
-export function getStoredUser() {
-  const userStr = localStorage.getItem('user');
-  if (userStr) {
-    try {
-      return JSON.parse(userStr);
-    } catch {
-      return null;
-    }
-  }
-  return null;
+export async function fetchPostById(id) {
+  const response = await fetch(`${API_BASE_URL}/posts/${id}`);
+  if (!response.ok) throw new Error('Failed to fetch post details');
+  return response.json();
 }
 
 export function isAuthenticated() {
   return !!localStorage.getItem('token');
+}
+
+export async function createPost(postData) {
+  const response = await fetch(`${API_BASE}/posts`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postData),
+  });
+  if (!response.ok) throw new Error('Failed to create post');
+  return response.json();
+}
+
+export async function updatePost(id, postData) {
+  const response = await fetch(`${API_BASE}/posts/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postData),
+  });
+  if (!response.ok) throw new Error('Failed to update post');
+  return response.json();
+}
 }

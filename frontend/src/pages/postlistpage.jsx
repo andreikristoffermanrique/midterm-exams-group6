@@ -9,7 +9,6 @@ const INITIAL_POSTS = [
 export default function PostListPage({ posts = INITIAL_POSTS, loading = false, error = '' }) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filter posts dynamically based on search input
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.content.toLowerCase().includes(searchTerm.toLowerCase())
@@ -20,14 +19,14 @@ export default function PostListPage({ posts = INITIAL_POSTS, loading = false, e
       <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-900">Latest Posts</h1>
         
-        {/* Search Input Bar */}
+        {/* Search Input Box */}
         <div className="w-full sm:w-72">
           <input
             type="text"
             placeholder="Search posts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm text-gray-900 bg-white"
           />
         </div>
       </div>
